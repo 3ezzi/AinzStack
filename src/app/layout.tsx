@@ -1,8 +1,20 @@
 import type { Metadata, Viewport } from 'next';
+import { Inter, Poppins } from 'next/font/google';
 import { Toaster } from '@/components/ui/sonner';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { QueryProvider } from '@/components/providers/query-provider';
 import './globals.css';
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+});
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-poppins',
+});
 
 export const metadata: Metadata = {
   title: {
@@ -61,7 +73,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="min-h-dvh antialiased">
+      <body
+        className={`${poppins.variable} ${inter.variable} min-h-dvh font-sans antialiased`}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
