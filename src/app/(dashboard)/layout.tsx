@@ -1,5 +1,6 @@
 import { DashboardSidebar } from '@/components/layout/dashboard-sidebar';
 import { DashboardTopNav } from '@/components/layout/dashboard-top-nav';
+import { PageTransition } from '@/components/providers/page-transition';
 
 export default function DashboardLayout({
   children,
@@ -11,7 +12,9 @@ export default function DashboardLayout({
       <DashboardSidebar />
       <div className="flex flex-1 flex-col">
         <DashboardTopNav />
-        <main className="flex-1 p-4 lg:p-6">{children}</main>
+        <main id="main-content" className="flex-1 p-4 lg:p-6">
+          <PageTransition>{children}</PageTransition>
+        </main>
       </div>
     </div>
   );

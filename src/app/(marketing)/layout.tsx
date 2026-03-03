@@ -1,5 +1,6 @@
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
+import { PageTransition } from '@/components/providers/page-transition';
 
 export default function MarketingLayout({
   children,
@@ -9,7 +10,9 @@ export default function MarketingLayout({
   return (
     <div className="flex min-h-dvh flex-col">
       <Navbar />
-      <main className="flex-1">{children}</main>
+      <main id="main-content" className="flex-1">
+        <PageTransition>{children}</PageTransition>
+      </main>
       <Footer />
     </div>
   );
