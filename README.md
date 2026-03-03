@@ -1,74 +1,131 @@
+<div align="center">
+
 # AinzStack
 
-Production-ready full-stack scaffold for Next.js 16 App Router.
+**Ship Your SaaS in Days, Not Months**
 
-This repository currently includes:
-- Core framework and package setup
-- Backend integration stubs (Supabase, Stripe, Sanity, Resend)
-- Server Actions scaffolding
-- API route scaffolding
-- Environment schema utilities
-- Unit and E2E test scaffolding
-- CI workflow baseline
+Production-ready Next.js 16 boilerplate for indie developers and startups.
 
-This repository intentionally excludes:
-- UI component implementation
-- Marketing/auth/dashboard page implementations
-- Design system customization work
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Strict-blue?logo=typescript)](https://typescriptlang.org)
+[![Tailwind](https://img.shields.io/badge/Tailwind-v4-38bdf8?logo=tailwindcss)](https://tailwindcss.com)
+[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
-## Stack
+</div>
 
-- Next.js 16.1.6
-- React 19.2.4
-- TypeScript 5.9.3
-- Tailwind CSS 4.2.1
-- shadcn config initialized (no generated components)
-- Supabase, Stripe, Sanity, Resend stubs
-- Vitest + Playwright
+---
 
-## Setup
+## Features
 
-1. Install dependencies:
+- ⚡ **Next.js 16** with Turbopack — instant dev starts
+- 🎨 **Apple-inspired design** — monochrome palette, Inter/Poppins fonts, compact components
+- 🧩 **56+ shadcn/ui components** — all customized for flat, mini-sized aesthetic
+- 🔐 **Supabase Auth** — email/password + Google OAuth
+- 💳 **Stripe Payments** — subscriptions, checkout, webhooks
+- 📧 **Resend Email** — transactional emails with templates
+- 📝 **Sanity CMS** — structured content with live previews
+- 🧪 **Testing** — Vitest + Playwright + GitHub Actions CI
+- 🎭 **Interactive Playground** — draggable Framer Motion component showcase
+- 🌗 **Dark Mode** — system-aware with next-themes
+
+## Tech Stack
+
+| Category   | Technology                 |
+| ---------- | -------------------------- |
+| Framework  | Next.js 16, React 19       |
+| Language   | TypeScript (strict)        |
+| Styling    | Tailwind CSS v4, shadcn/ui |
+| Auth       | Supabase                   |
+| Payments   | Stripe                     |
+| CMS        | Sanity                     |
+| Email      | Resend                     |
+| Animation  | Framer Motion              |
+| State      | Zustand, TanStack Query    |
+| Validation | Zod, react-hook-form       |
+| Testing    | Vitest, Playwright         |
+| CI/CD      | GitHub Actions             |
+
+## Quick Start
+
 ```bash
+# Clone
+git clone https://github.com/JCFcodex/AinzStack.git
+cd AinzStack
+
+# Install
 pnpm install
-```
 
-2. Create environment file:
-```bash
+# Configure
 cp .env.example .env.local
-```
+# Fill in your API keys in .env.local
 
-3. Fill in values in `.env.local`.
-
-4. Start development server:
-```bash
+# Develop
 pnpm dev
 ```
 
-## Available Scripts
+Open [http://localhost:3000](http://localhost:3000).
 
-- `pnpm dev` - run local dev server
-- `pnpm build` - production build
-- `pnpm start` - run production server
-- `pnpm lint` - lint project
-- `pnpm typecheck` - TypeScript validation
-- `pnpm test` - run Vitest suite
-- `pnpm test:e2e` - run Playwright suite
-- `pnpm ci` - run lint + typecheck + unit tests + build
+## Project Structure
 
-## Scaffolded Backend Paths
+```
+src/
+├── app/
+│   ├── (marketing)/     # Homepage, pricing
+│   ├── (auth)/          # Sign in, sign up, forgot password
+│   ├── (dashboard)/     # Dashboard, settings, billing
+│   ├── api/             # Health check, Stripe webhooks
+│   ├── layout.tsx       # Root layout with providers
+│   ├── sitemap.ts       # Dynamic sitemap
+│   └── robots.ts        # SEO robots config
+├── components/
+│   ├── ui/              # 56+ customized shadcn components
+│   ├── layout/          # Navbar, Footer, Sidebar, TopNav
+│   ├── playground/      # Interactive Framer Motion showcase
+│   └── providers/       # Theme, Query providers
+├── lib/
+│   ├── supabase/        # Client, server, middleware
+│   ├── stripe/          # Client, server
+│   ├── sanity/          # Client, image, schemas
+│   ├── email/           # Resend client
+│   └── env/             # Zod-validated env variables
+├── actions/             # Server Actions (auth, billing, settings)
+└── types/               # Shared TypeScript types
+e2e/                     # Playwright E2E tests
+```
 
-- `proxy.ts`
-- `src/lib/env/*`
-- `src/lib/supabase/*`
-- `src/lib/stripe/*`
-- `src/lib/sanity/*`
-- `src/lib/email/*`
-- `src/actions/*`
-- `src/app/api/health/route.ts`
-- `src/app/api/webhooks/stripe/route.ts`
+## Scripts
 
-## Notes
+| Command                     | Description                     |
+| --------------------------- | ------------------------------- |
+| `pnpm dev`                  | Start dev server with Turbopack |
+| `pnpm build`                | Production build                |
+| `pnpm test`                 | Run Vitest unit tests           |
+| `pnpm exec playwright test` | Run Playwright E2E tests        |
 
-- `src/actions/*` and webhook handlers are intentionally scaffold-only.
-- Provide real credentials and business logic before production use.
+## Environment Variables
+
+Copy `.env.example` to `.env.local` and configure:
+
+| Variable                             | Service  | Required     |
+| ------------------------------------ | -------- | ------------ |
+| `NEXT_PUBLIC_SUPABASE_URL`           | Supabase | Yes          |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY`      | Supabase | Yes          |
+| `STRIPE_SECRET_KEY`                  | Stripe   | Yes          |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Stripe   | Yes          |
+| `STRIPE_WEBHOOK_SECRET`              | Stripe   | For webhooks |
+| `SANITY_PROJECT_ID`                  | Sanity   | Yes          |
+| `RESEND_API_KEY`                     | Resend   | Yes          |
+
+## Design System
+
+AinzStack uses an **Apple-inspired minimalist** design:
+
+- **Palette**: `#FFFFFF` / `#A9A9A9` / `#000000`
+- **Fonts**: Inter (body, 14px), Poppins (headings)
+- **Components**: h-8 defaults, 13px text, no shadows, flat borders
+- **Spacing**: Compact — tight gaps, minimal padding
+- **Dark Mode**: Full dark mode with system detection
+
+## License
+
+MIT © [JCFcodex](https://github.com/JCFcodex)
