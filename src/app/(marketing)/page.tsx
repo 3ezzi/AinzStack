@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
 import {
   ArrowRightIcon,
@@ -14,7 +15,14 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { PlaygroundSection } from '@/components/playground/playground-section';
+
+const PlaygroundSection = dynamic(
+  () =>
+    import('@/components/playground/playground-section').then(
+      (mod) => mod.PlaygroundSection,
+    ),
+  { ssr: false },
+);
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
