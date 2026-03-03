@@ -7,9 +7,15 @@ test.describe('Pricing Page', () => {
     await expect(
       page.getByRole('heading', { name: /simple, transparent pricing/i }),
     ).toBeVisible();
-    await expect(page.getByText('Starter')).toBeVisible();
-    await expect(page.getByText('Pro')).toBeVisible();
-    await expect(page.getByText('Team')).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: 'Starter', exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: 'Pro', exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: 'Team', exact: true }),
+    ).toBeVisible();
   });
 
   test('shows prices', async ({ page }) => {

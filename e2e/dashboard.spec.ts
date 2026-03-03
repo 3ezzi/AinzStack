@@ -19,9 +19,13 @@ test.describe('Dashboard', () => {
     await expect(
       page.getByRole('heading', { name: /settings/i }),
     ).toBeVisible();
-    await expect(page.getByText('Profile')).toBeVisible();
-    await expect(page.getByText('Notifications')).toBeVisible();
-    await expect(page.getByText('Danger Zone')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Profile' })).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: 'Notifications' }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: 'Danger Zone' }),
+    ).toBeVisible();
   });
 
   test('billing page renders plan', async ({ page }) => {
