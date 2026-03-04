@@ -11,11 +11,22 @@ import {
   KeyRoundIcon,
   SearchIcon,
   ChevronsUpDownIcon,
+  UserIcon,
+  LogOutIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { signOut } from '@/lib/auth/actions';
 
 interface NavItem {
   href: string;
@@ -141,25 +152,69 @@ export function DashboardSidebar({
         ))}
       </nav>
 
-      {/* User Footer */}
+      {/* User Footer with Dropdown */}
       <Separator className="opacity-60" />
       <div className="p-3">
-        <button className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left transition-colors hover:bg-accent">
-          <Avatar className="size-7">
-            <AvatarFallback className="text-[10px] font-semibold">
-              {initials}
-            </AvatarFallback>
-          </Avatar>
-          <div className="min-w-0 flex-1">
-            <p className="truncate text-[12px] font-medium leading-tight">
-              {userName}
-            </p>
-            <p className="truncate text-[10px] text-muted-foreground">
-              {userEmail}
-            </p>
-          </div>
-          <ChevronsUpDownIcon className="size-3 shrink-0 text-muted-foreground" />
-        </button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left transition-colors hover:bg-accent">
+              <Avatar className="size-7">
+                <AvatarFallback className="text-[10px] font-semibold">
+                  {initials}
+                </AvatarFallback>
+              </Avatar>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-[12px] font-medium leading-tight">
+                  {userName}
+                </p>
+                <p className="truncate text-[10px] text-muted-foreground">
+                  {userEmail}
+                </p>
+              </div>
+              <ChevronsUpDownIcon className="size-3 shrink-0 text-muted-foreground" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent side="top" align="start" className="w-52">
+            <DropdownMenuLabel className="flex items-center gap-2 py-2">
+              <Avatar className="size-7">
+                <AvatarFallback className="text-[10px] font-semibold">
+                  {initials}
+                </AvatarFallback>
+              </Avatar>
+              <div className="min-w-0">
+                <p className="truncate text-[12px] font-medium leading-tight">
+                  {userName}
+                </p>
+                <p className="truncate text-[10px] font-normal text-muted-foreground">
+                  {userEmail}
+                </p>
+              </div>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <Link
+                href="/dashboard/settings"
+                onClick={onNavigate}
+                className="flex items-center gap-2 text-[12px]"
+              >
+                <UserIcon className="size-3.5" />
+                Account
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <form action={signOut} className="w-full">
+                <button
+                  type="submit"
+                  className="flex w-full items-center gap-2 text-[12px]"
+                >
+                  <LogOutIcon className="size-3.5" />
+                  Log out
+                </button>
+              </form>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </aside>
   );
