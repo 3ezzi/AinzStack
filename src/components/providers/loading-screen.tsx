@@ -9,23 +9,27 @@ import { cn } from '@/lib/utils';
  * fades out smoothly once the window fires the 'load' event.
  */
 export function LoadingScreen() {
-  const [loaded, setLoaded] = useState(false);
+  const [loaded, setLoaded] = useState(
+    () => typeof document !== 'undefined' && document.readyState === 'complete',
+  );
   const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
-    // If the document is already fully loaded (e.g. cached), skip immediately
-    if (document.readyState === 'complete') {
-      setLoaded(true);
-      return;
-    }
+    if (loaded) return;
 
     function handleLoad() {
       setLoaded(true);
     }
 
+    // Check again in case readyState changed between render and effect
+    if (document.readyState === 'complete') {
+      setLoaded(true);
+      return;
+    }
+
     window.addEventListener('load', handleLoad);
     return () => window.removeEventListener('load', handleLoad);
-  }, []);
+  }, [loaded]);
 
   // After the fade-out animation completes, unmount entirely
   useEffect(() => {
