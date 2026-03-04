@@ -11,7 +11,6 @@ import {
   KeyRoundIcon,
   SearchIcon,
   ChevronsUpDownIcon,
-  SettingsIcon as GearIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
@@ -86,7 +85,7 @@ export function DashboardSidebar({
       )}
     >
       {/* Brand */}
-      <div className="flex h-12 items-center justify-between border-b border-border/60 px-3">
+      <div className="flex h-12 items-center border-b border-border/60 px-3">
         <Link href="/" className="flex items-center gap-2">
           <div className="flex size-6 items-center justify-center rounded-md bg-foreground">
             <span className="text-[10px] font-bold text-background">A</span>
@@ -100,12 +99,6 @@ export function DashboardSidebar({
             </span>
           </div>
         </Link>
-        <button
-          className="rounded-md p-1 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-          aria-label="Workspace settings"
-        >
-          <GearIcon className="size-3.5" />
-        </button>
       </div>
 
       {/* Search */}
