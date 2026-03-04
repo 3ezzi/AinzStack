@@ -6,7 +6,7 @@ import { Separator } from '@/components/ui/separator';
 export const dynamic = 'force-dynamic';
 
 export const metadata = {
-  title: 'Docs — AinzStack',
+  title: 'Docs',
   description: 'Documentation and guides for AinzStack.',
 };
 

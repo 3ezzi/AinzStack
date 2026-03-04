@@ -18,7 +18,7 @@ export default async function AboutPage() {
   const page = await getPageBySlug('about');
 
   return (
-    <section className="mx-auto max-w-2xl px-4 py-14">
+    <section className="mx-auto max-w-3xl px-4 py-14">
       {/* Page Header */}
       <div className="mb-6">
         <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">

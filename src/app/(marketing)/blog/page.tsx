@@ -14,7 +14,7 @@ import {
 export const dynamic = 'force-dynamic';
 
 export const metadata = {
-  title: 'Blog — AinzStack',
+  title: 'Blog',
   description: 'Latest articles, tutorials, and updates from AinzStack.',
 };
 
@@ -46,7 +46,7 @@ export default async function BlogPage() {
             <Link key={post._id} href={`/blog/${post.slug}`}>
               <Card className="h-full transition-colors duration-150 hover:border-foreground/10">
                 {post.coverImage && (
-                  <div className="relative aspect-[16/9] overflow-hidden rounded-t-lg">
+                  <div className="relative aspect-video overflow-hidden rounded-t-lg">
                     <Image
                       src={urlForImage(post.coverImage)
                         .width(600)
@@ -55,6 +55,7 @@ export default async function BlogPage() {
                         .url()}
                       alt={post.title}
                       fill
+                      sizes="(max-width: 640px) 100vw, 50vw"
                       className="object-cover"
                     />
                   </div>

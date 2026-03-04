@@ -105,7 +105,7 @@ export default async function BillingPage() {
         <h1 className="font-heading text-xl font-bold tracking-tight">
           Billing
         </h1>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-[12px] text-muted-foreground">
           Manage your plan and view purchase history.
         </p>
       </div>
@@ -131,14 +131,16 @@ export default async function BillingPage() {
                 : 'Free'}
             </span>
             {activePurchase && (
-              <span className="text-xs text-muted-foreground">/one-time</span>
+              <span className="text-[12px] text-muted-foreground">
+                /one-time
+              </span>
             )}
           </div>
           <ul className="mt-4 space-y-1.5">
             {planFeatures.map((feature) => (
               <li
                 key={feature}
-                className="flex items-center gap-2 text-xs text-muted-foreground"
+                className="flex items-center gap-2 text-[12px] text-muted-foreground"
               >
                 <CheckIcon className="size-3 text-emerald-600 dark:text-emerald-400" />
                 {feature}
@@ -156,7 +158,7 @@ export default async function BillingPage() {
         </CardHeader>
         <CardContent>
           {purchases.length === 0 ? (
-            <div className="flex h-20 items-center justify-center text-xs text-muted-foreground">
+            <div className="flex h-20 items-center justify-center text-[12px] text-muted-foreground">
               No purchases yet. Visit the pricing page to get started.
             </div>
           ) : (
