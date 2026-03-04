@@ -60,11 +60,15 @@ const navGroups: NavGroup[] = [
 interface DashboardSidebarProps {
   userName?: string;
   userEmail?: string;
+  mobile?: boolean;
+  onNavigate?: () => void;
 }
 
 export function DashboardSidebar({
   userName = 'User',
   userEmail = 'user@example.com',
+  mobile = false,
+  onNavigate,
 }: DashboardSidebarProps) {
   const pathname = usePathname();
   const initials = userName
@@ -75,7 +79,12 @@ export function DashboardSidebar({
     .toUpperCase();
 
   return (
-    <aside className="hidden w-56 shrink-0 border-r border-border/60 bg-sidebar lg:flex lg:flex-col">
+    <aside
+      className={cn(
+        'w-56 shrink-0 border-r border-border/60 bg-sidebar',
+        mobile ? 'flex flex-col h-full' : 'hidden lg:flex lg:flex-col',
+      )}
+    >
       {/* Brand */}
       <div className="flex h-12 items-center justify-between border-b border-border/60 px-3">
         <Link href="/" className="flex items-center gap-2">
@@ -121,6 +130,7 @@ export function DashboardSidebar({
                   <Link
                     key={item.href}
                     href={item.href}
+                    onClick={onNavigate}
                     className={cn(
                       'flex items-center gap-2 rounded-md px-2 py-1.5 text-[13px] font-medium transition-colors duration-150',
                       isActive
