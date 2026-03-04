@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MenuIcon, XIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -16,6 +16,11 @@ const navLinks = [
 export function Navbar() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-md">
@@ -56,13 +61,14 @@ export function Navbar() {
           </Button>
         </div>
 
-        {/* Mobile hamburger */}
+        {/* Mobile hamburger — 44px min touch target for accessibility */}
         <Button
           variant="ghost"
           size="icon-sm"
-          className="md:hidden"
+          className="min-h-[44px] min-w-[44px] md:hidden"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
+          aria-expanded={mobileOpen}
         >
           {mobileOpen ? (
             <XIcon className="size-4" />
