@@ -13,11 +13,12 @@ import {
   CardDescription,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import { type PlanKey } from '@/lib/stripe/plans';
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 16 },
   visible: { opacity: 1, y: 0 },
 };
 
@@ -105,7 +106,6 @@ export default function PricingPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        // Not authenticated — redirect to sign-up
         if (res.status === 401) {
           window.location.href = '/sign-up';
           return;
@@ -114,7 +114,6 @@ export default function PricingPage() {
         return;
       }
 
-      // Redirect to Stripe Checkout
       window.location.href = data.url;
     } catch (error) {
       console.error({ error }, 'Checkout request failed');
@@ -124,22 +123,28 @@ export default function PricingPage() {
   }
 
   return (
-    <section className="mx-auto max-w-5xl px-4 py-16">
+    <section className="mx-auto max-w-5xl px-4 py-14">
       <motion.div
         initial="hidden"
         animate="visible"
-        variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
+        variants={{ visible: { transition: { staggerChildren: 0.08 } } }}
         className="text-center"
       >
+        <motion.p
+          variants={fadeUp}
+          className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70"
+        >
+          Pricing
+        </motion.p>
         <motion.h1
           variants={fadeUp}
-          className="font-heading text-3xl font-bold tracking-tight sm:text-4xl"
+          className="mt-1.5 font-heading text-2xl font-bold tracking-tight sm:text-3xl"
         >
           Simple, Transparent Pricing
         </motion.h1>
         <motion.p
           variants={fadeUp}
-          className="mt-2 text-sm text-muted-foreground"
+          className="mt-1.5 text-[12px] text-muted-foreground"
         >
           One-time payment. Lifetime access. No subscriptions.
         </motion.p>
@@ -150,44 +155,51 @@ export default function PricingPage() {
         animate="visible"
         variants={{
           visible: {
-            transition: { staggerChildren: 0.15, delayChildren: 0.2 },
+            transition: { staggerChildren: 0.1, delayChildren: 0.2 },
           },
         }}
-        className="mt-10 grid gap-4 md:grid-cols-3"
+        className="mt-8 grid gap-3 md:grid-cols-3"
       >
         {plans.map((plan) => (
           <motion.div key={plan.key} variants={fadeUp}>
             <Card
               className={cn(
-                'relative h-full transition-colors duration-150',
+                'relative flex h-full flex-col transition-colors duration-150',
                 plan.popular && 'border-foreground',
               )}
             >
               {plan.popular && (
-                <Badge className="absolute -top-2.5 left-4">Most Popular</Badge>
+                <Badge className="absolute -top-2.5 left-4 text-[10px]">
+                  Most Popular
+                </Badge>
               )}
-              <CardHeader>
-                <CardTitle className="text-sm">{plan.name}</CardTitle>
-                <CardDescription>{plan.description}</CardDescription>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-[13px]">{plan.name}</CardTitle>
+                <CardDescription className="text-[11px]">
+                  {plan.description}
+                </CardDescription>
                 <div className="mt-3 flex items-baseline gap-1">
-                  <span className="font-heading text-3xl font-bold tracking-tight">
+                  <span className="font-heading text-2xl font-bold tracking-tight">
                     {plan.price}
                   </span>
                   {plan.period && (
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-[11px] text-muted-foreground">
                       {plan.period}
                     </span>
                   )}
                 </div>
               </CardHeader>
-              <CardContent className="flex flex-1 flex-col">
-                <ul className="flex-1 space-y-2">
+
+              <Separator className="mx-4 w-auto opacity-60" />
+
+              <CardContent className="flex flex-1 flex-col pt-3">
+                <ul className="flex-1 space-y-1.5">
                   {plan.features.map((feature) => (
                     <li
                       key={feature}
-                      className="flex items-center gap-2 text-xs text-muted-foreground"
+                      className="flex items-center gap-2 text-[11px] text-muted-foreground"
                     >
-                      <CheckIcon className="size-3 text-foreground" />
+                      <CheckIcon className="size-3 shrink-0 text-foreground" />
                       {feature}
                     </li>
                   ))}
@@ -196,7 +208,7 @@ export default function PricingPage() {
                   <Button
                     variant={plan.variant}
                     size="sm"
-                    className="mt-6 w-full"
+                    className="mt-5 w-full text-[12px]"
                     disabled={loadingPlan !== null}
                     onClick={() => handleCheckout(plan.key)}
                   >
@@ -213,7 +225,7 @@ export default function PricingPage() {
                   <Button
                     variant={plan.variant}
                     size="sm"
-                    className="mt-6 w-full"
+                    className="mt-5 w-full text-[12px]"
                     asChild
                   >
                     <Link href="/sign-up">{plan.cta}</Link>
