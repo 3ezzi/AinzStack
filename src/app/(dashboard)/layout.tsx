@@ -1,12 +1,23 @@
+import { redirect } from 'next/navigation';
+import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { DashboardSidebar } from '@/components/layout/dashboard-sidebar';
 import { DashboardTopNav } from '@/components/layout/dashboard-top-nav';
 import { PageTransition } from '@/components/providers/page-transition';
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect('/sign-in');
+  }
+
   return (
     <div className="flex min-h-dvh">
       <DashboardSidebar />
