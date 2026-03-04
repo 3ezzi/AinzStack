@@ -20,11 +20,6 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [user, setUser] = useState<{ email?: string } | null>(null);
 
-  // Close mobile menu on route change
-  useEffect(() => {
-    setMobileOpen(false);
-  }, [pathname]);
-
   // Check auth state
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
@@ -52,6 +47,7 @@ export function Navbar() {
         {/* Logo */}
         <Link
           href="/"
+          onClick={() => setMobileOpen(false)}
           className="font-heading text-[15px] font-semibold tracking-tight"
         >
           AinzStack
@@ -141,7 +137,9 @@ export function Navbar() {
               {user ? (
                 <>
                   <Button variant="outline" size="sm" asChild>
-                    <Link href="/dashboard">Dashboard</Link>
+                    <Link href="/dashboard" onClick={() => setMobileOpen(false)}>
+                      Dashboard
+                    </Link>
                   </Button>
                   <form action={signOut}>
                     <Button
@@ -158,10 +156,14 @@ export function Navbar() {
               ) : (
                 <>
                   <Button variant="outline" size="sm" asChild>
-                    <Link href="/sign-in">Sign in</Link>
+                    <Link href="/sign-in" onClick={() => setMobileOpen(false)}>
+                      Sign in
+                    </Link>
                   </Button>
                   <Button size="sm" asChild>
-                    <Link href="/sign-up">Get Started</Link>
+                    <Link href="/sign-up" onClick={() => setMobileOpen(false)}>
+                      Get Started
+                    </Link>
                   </Button>
                 </>
               )}
