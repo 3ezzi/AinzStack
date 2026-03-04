@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { getServerEnv } from '@/lib/env/server';
 import { getStripeServerClient } from '@/lib/stripe/server';
+import { sendEmail } from '@/lib/email/send';
+import { purchaseConfirmationEmail } from '@/lib/email/templates';
+import { STRIPE_PLANS } from '@/lib/stripe/plans';
 import type Stripe from 'stripe';
 
 export const runtime = 'nodejs';
@@ -69,6 +72,30 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
 
   if (error) {
     console.error({ error, session: session.id }, 'Failed to upsert purchase');
+    return;
+  }
+
+  // Send purchase confirmation email
+  const customerEmail =
+    session.customer_details?.email ?? session.customer_email;
+  if (customerEmail) {
+    const planConfig = STRIPE_PLANS[plan as keyof typeof STRIPE_PLANS];
+    const amount = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    }).format((session.amount_total ?? 0) / 100);
+    const template = purchaseConfirmationEmail(
+      session.customer_details?.name ?? 'there',
+      planConfig?.name ?? plan,
+      amount,
+    );
+    const appUrl =
+      getServerEnv().NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
+    await sendEmail({
+      to: customerEmail,
+      subject: template.subject,
+      html: template.html.replaceAll('{{APP_URL}}', appUrl),
+    });
   }
 }
 
