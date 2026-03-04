@@ -1,8 +1,6 @@
 import { redirect } from 'next/navigation';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
-import { DashboardSidebar } from '@/components/layout/dashboard-sidebar';
-import { DashboardTopNav } from '@/components/layout/dashboard-top-nav';
-import { PageTransition } from '@/components/providers/page-transition';
+import { DashboardShell } from '@/components/layout/dashboard-shell';
 
 export default async function DashboardLayout({
   children,
@@ -23,14 +21,8 @@ export default async function DashboardLayout({
   const userEmail = user.email ?? 'user@example.com';
 
   return (
-    <div className="flex min-h-dvh">
-      <DashboardSidebar userName={userName} userEmail={userEmail} />
-      <div className="flex flex-1 flex-col">
-        <DashboardTopNav />
-        <main id="main-content" className="flex-1 bg-muted/30 p-4 lg:p-6">
-          <PageTransition>{children}</PageTransition>
-        </main>
-      </div>
-    </div>
+    <DashboardShell userName={userName} userEmail={userEmail}>
+      {children}
+    </DashboardShell>
   );
 }
