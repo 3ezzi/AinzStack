@@ -17,6 +17,9 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL ?? 'https://ainzstack.dev',
+  ),
   title: {
     default: 'AinzStack — Ship Your SaaS in Days, Not Months',
     template: '%s | AinzStack',
