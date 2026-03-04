@@ -20,15 +20,22 @@ export default function SignInPage() {
 
   return (
     <Card>
-      <CardHeader className="text-center">
-        <CardTitle className="font-heading text-base">Welcome back</CardTitle>
-        <CardDescription>Sign in to your account</CardDescription>
+      <CardHeader className="space-y-1 text-center">
+        <CardTitle className="font-heading text-[15px]">Welcome back</CardTitle>
+        <CardDescription className="text-[11px]">
+          Sign in to your account
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* OAuth */}
         <form action={signInWithGoogle}>
-          <Button type="submit" variant="outline" className="w-full" size="sm">
-            <svg className="size-4" viewBox="0 0 24 24" fill="none">
+          <Button
+            type="submit"
+            variant="outline"
+            className="w-full text-[12px]"
+            size="sm"
+          >
+            <svg className="size-3.5" viewBox="0 0 24 24" fill="none">
               <path
                 d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"
                 fill="#4285F4"
@@ -52,7 +59,7 @@ export default function SignInPage() {
 
         <div className="relative">
           <Separator />
-          <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-card px-2 text-[11px] text-muted-foreground">
+          <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-card px-2 text-[10px] text-muted-foreground">
             or
           </span>
         </div>
@@ -60,26 +67,31 @@ export default function SignInPage() {
         {/* Email / Password */}
         <form action={formAction} className="space-y-3">
           {state.error && (
-            <p className="rounded-md bg-destructive/10 px-3 py-2 text-xs text-destructive">
+            <p className="rounded-md bg-destructive/10 px-3 py-2 text-[11px] text-destructive">
               {state.error}
             </p>
           )}
           <div className="space-y-1.5">
-            <Label htmlFor="signin-email">Email</Label>
+            <Label htmlFor="signin-email" className="text-[12px]">
+              Email
+            </Label>
             <Input
               id="signin-email"
               name="email"
               type="email"
               placeholder="you@example.com"
+              className="text-[12px]"
               required
             />
           </div>
           <div className="space-y-1.5">
             <div className="flex items-center justify-between">
-              <Label htmlFor="signin-password">Password</Label>
+              <Label htmlFor="signin-password" className="text-[12px]">
+                Password
+              </Label>
               <Link
                 href="/forgot-password"
-                className="text-[11px] text-muted-foreground hover:text-foreground"
+                className="text-[10px] text-muted-foreground transition-colors hover:text-foreground"
               >
                 Forgot?
               </Link>
@@ -89,12 +101,13 @@ export default function SignInPage() {
               name="password"
               type="password"
               placeholder="••••••••"
+              className="text-[12px]"
               required
             />
           </div>
           <Button
             type="submit"
-            className="w-full"
+            className="w-full text-[12px]"
             size="sm"
             disabled={isPending}
           >
@@ -102,7 +115,7 @@ export default function SignInPage() {
           </Button>
         </form>
 
-        <p className="text-center text-[11px] text-muted-foreground">
+        <p className="text-center text-[10px] text-muted-foreground">
           Don&apos;t have an account?{' '}
           <Link href="/sign-up" className="text-foreground hover:underline">
             Sign up
