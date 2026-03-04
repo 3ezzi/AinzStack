@@ -44,7 +44,10 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-md">
-      <nav className="mx-auto flex h-12 max-w-5xl items-center justify-between px-4">
+      <nav
+        aria-label="Main navigation"
+        className="mx-auto flex h-12 max-w-5xl items-center justify-between px-4"
+      >
         {/* Logo */}
         <Link
           href="/"
@@ -118,9 +121,9 @@ export function Navbar() {
           aria-expanded={mobileOpen}
         >
           {mobileOpen ? (
-            <XIcon className="size-4" />
+            <XIcon className="size-4" aria-hidden="true" />
           ) : (
-            <MenuIcon className="size-4" />
+            <MenuIcon className="size-4" aria-hidden="true" />
           )}
         </Button>
       </nav>
