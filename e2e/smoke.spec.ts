@@ -7,7 +7,9 @@ test.describe('Marketing Pages', () => {
 
     await expect(page).toHaveTitle(/AinzStack/i);
     await expect(page.locator('h1')).toBeVisible();
-    await expect(main.getByRole('link', { name: /get started/i })).toBeVisible();
+    await expect(
+      main.getByRole('link', { name: /get started/i }),
+    ).toBeVisible();
   });
 
   test('pricing page renders three plans', async ({ page }) => {
@@ -20,7 +22,7 @@ test.describe('Marketing Pages', () => {
 
   test('navbar links are visible on desktop', async ({ page }) => {
     await page.goto('/');
-    const nav = page.getByRole('navigation');
+    const nav = page.getByLabel('Main navigation');
 
     await expect(nav.getByRole('link', { name: 'Pricing' })).toBeVisible();
     await expect(nav.getByRole('link', { name: 'Docs' })).toBeVisible();

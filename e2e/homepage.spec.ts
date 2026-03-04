@@ -9,7 +9,9 @@ test.describe('Homepage', () => {
     await expect(
       page.getByRole('heading', { name: /ship your saas/i }),
     ).toBeVisible();
-    await expect(main.getByRole('link', { name: /get started/i })).toBeVisible();
+    await expect(
+      main.getByRole('link', { name: /get started/i }),
+    ).toBeVisible();
     await expect(
       main.getByRole('link', { name: /documentation/i }),
     ).toBeVisible();
@@ -32,18 +34,20 @@ test.describe('Homepage', () => {
       main.getByRole('heading', { name: 'Authentication' }),
     ).toBeVisible();
     await expect(main.getByRole('heading', { name: 'Payments' })).toBeVisible();
-    await expect(main.getByRole('heading', { name: 'Turbopack' })).toBeVisible();
+    await expect(
+      main.getByRole('heading', { name: 'Turbopack' }),
+    ).toBeVisible();
   });
 
   test('navbar links navigate correctly', async ({ page }) => {
     await page.goto('/');
-    const nav = page.getByRole('navigation');
+    const nav = page.getByLabel('Main navigation');
 
     await nav.getByRole('link', { name: 'Pricing' }).click();
     await expect(page).toHaveURL('/pricing');
 
     await page
-      .getByRole('navigation')
+      .getByLabel('Main navigation')
       .getByRole('link', { name: 'AinzStack' })
       .click();
     await expect(page).toHaveURL('/');
