@@ -6,7 +6,6 @@ import {
   CardTitle,
   CardDescription,
 } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { STRIPE_PLANS } from '@/lib/stripe/plans';
