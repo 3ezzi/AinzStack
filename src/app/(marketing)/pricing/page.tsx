@@ -16,11 +16,7 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import { type PlanKey } from '@/lib/stripe/plans';
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0 },
-};
+import { fadeUp, stagger } from '@/lib/motion';
 
 const plans: Array<{
   key: PlanKey;
@@ -127,7 +123,7 @@ export default function PricingPage() {
       <motion.div
         initial="hidden"
         animate="visible"
-        variants={{ visible: { transition: { staggerChildren: 0.08 } } }}
+        variants={stagger()}
         className="text-center"
       >
         <motion.p
@@ -153,11 +149,7 @@ export default function PricingPage() {
       <motion.div
         initial="hidden"
         animate="visible"
-        variants={{
-          visible: {
-            transition: { staggerChildren: 0.1, delayChildren: 0.2 },
-          },
-        }}
+        variants={stagger(0.2)}
         className="mt-8 grid gap-3 md:grid-cols-3"
       >
         {plans.map((plan) => (
