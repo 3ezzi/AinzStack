@@ -3,11 +3,11 @@ import { test, expect } from '@playwright/test';
 test.describe('Marketing Pages', () => {
   test('homepage loads with hero content', async ({ page }) => {
     await page.goto('/');
+    const main = page.locator('#main-content');
+
     await expect(page).toHaveTitle(/AinzStack/i);
     await expect(page.locator('h1')).toBeVisible();
-    await expect(
-      page.getByRole('link', { name: /get started/i }),
-    ).toBeVisible();
+    await expect(main.getByRole('link', { name: /get started/i })).toBeVisible();
   });
 
   test('pricing page renders three plans', async ({ page }) => {
@@ -20,8 +20,10 @@ test.describe('Marketing Pages', () => {
 
   test('navbar links are visible on desktop', async ({ page }) => {
     await page.goto('/');
-    await expect(page.getByRole('link', { name: 'Pricing' })).toBeVisible();
-    await expect(page.getByRole('link', { name: 'Docs' })).toBeVisible();
+    const nav = page.getByRole('navigation');
+
+    await expect(nav.getByRole('link', { name: 'Pricing' })).toBeVisible();
+    await expect(nav.getByRole('link', { name: 'Docs' })).toBeVisible();
   });
 });
 
