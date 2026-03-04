@@ -1,8 +1,9 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { CheckIcon } from 'lucide-react';
+import { CheckIcon, LoaderIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -13,14 +14,27 @@ import {
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { type PlanKey } from '@/lib/stripe/plans';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
 };
 
-const plans = [
+const plans: Array<{
+  key: PlanKey;
+  name: string;
+  price: string;
+  period: string;
+  description: string;
+  features: string[];
+  cta: string;
+  variant: 'outline' | 'default';
+  popular: boolean;
+  checkoutEnabled: boolean;
+}> = [
   {
+    key: 'starter',
     name: 'Starter',
     price: 'Free',
     period: '',
@@ -32,10 +46,12 @@ const plans = [
       'Basic auth',
     ],
     cta: 'Get Started',
-    variant: 'outline' as const,
+    variant: 'outline',
     popular: false,
+    checkoutEnabled: false,
   },
   {
+    key: 'pro',
     name: 'Pro',
     price: '$49',
     period: '/one-time',
@@ -49,10 +65,12 @@ const plans = [
       'Priority support',
     ],
     cta: 'Buy Now',
-    variant: 'default' as const,
+    variant: 'default',
     popular: true,
+    checkoutEnabled: true,
   },
   {
+    key: 'team',
     name: 'Team',
     price: '$149',
     period: '/one-time',
@@ -65,13 +83,46 @@ const plans = [
       'Slack support',
       'White-label ready',
     ],
-    cta: 'Contact Us',
-    variant: 'outline' as const,
+    cta: 'Buy Now',
+    variant: 'outline',
     popular: false,
+    checkoutEnabled: true,
   },
 ];
 
 export default function PricingPage() {
+  const [loadingPlan, setLoadingPlan] = useState<PlanKey | null>(null);
+
+  async function handleCheckout(plan: PlanKey) {
+    setLoadingPlan(plan);
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        // Not authenticated — redirect to sign-up
+        if (res.status === 401) {
+          window.location.href = '/sign-up';
+          return;
+        }
+        console.error({ error: data.error }, 'Checkout failed');
+        return;
+      }
+
+      // Redirect to Stripe Checkout
+      window.location.href = data.url;
+    } catch (error) {
+      console.error({ error }, 'Checkout request failed');
+    } finally {
+      setLoadingPlan(null);
+    }
+  }
+
   return (
     <section className="mx-auto max-w-5xl px-4 py-16">
       <motion.div
@@ -105,7 +156,7 @@ export default function PricingPage() {
         className="mt-10 grid gap-4 md:grid-cols-3"
       >
         {plans.map((plan) => (
-          <motion.div key={plan.name} variants={fadeUp}>
+          <motion.div key={plan.key} variants={fadeUp}>
             <Card
               className={cn(
                 'relative h-full transition-colors duration-150',
@@ -141,14 +192,33 @@ export default function PricingPage() {
                     </li>
                   ))}
                 </ul>
-                <Button
-                  variant={plan.variant}
-                  size="sm"
-                  className="mt-6 w-full"
-                  asChild
-                >
-                  <Link href="/sign-up">{plan.cta}</Link>
-                </Button>
+                {plan.checkoutEnabled ? (
+                  <Button
+                    variant={plan.variant}
+                    size="sm"
+                    className="mt-6 w-full"
+                    disabled={loadingPlan !== null}
+                    onClick={() => handleCheckout(plan.key)}
+                  >
+                    {loadingPlan === plan.key ? (
+                      <>
+                        <LoaderIcon className="size-3 animate-spin" />
+                        Processing...
+                      </>
+                    ) : (
+                      plan.cta
+                    )}
+                  </Button>
+                ) : (
+                  <Button
+                    variant={plan.variant}
+                    size="sm"
+                    className="mt-6 w-full"
+                    asChild
+                  >
+                    <Link href="/sign-up">{plan.cta}</Link>
+                  </Button>
+                )}
               </CardContent>
             </Card>
           </motion.div>
