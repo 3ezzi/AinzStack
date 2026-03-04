@@ -8,6 +8,10 @@ interface AuthResult {
   error?: string;
 }
 
+interface ResetPasswordResult extends AuthResult {
+  success?: boolean;
+}
+
 export async function signInWithEmail(
   _prev: AuthResult,
   formData: FormData,
@@ -58,13 +62,13 @@ export async function signUpWithEmail(
 }
 
 export async function resetPassword(
-  _prev: AuthResult,
+  _prev: ResetPasswordResult,
   formData: FormData,
-): Promise<AuthResult> {
+): Promise<ResetPasswordResult> {
   const email = formData.get('email') as string;
 
   if (!email) {
-    return { error: 'Email is required.' };
+    return { error: 'Email is required.', success: false };
   }
 
   const env = getServerEnv();
@@ -76,10 +80,10 @@ export async function resetPassword(
   });
 
   if (error) {
-    return { error: error.message };
+    return { error: error.message, success: false };
   }
 
-  return { error: undefined };
+  return { success: true };
 }
 
 export async function signInWithGoogle(): Promise<void> {

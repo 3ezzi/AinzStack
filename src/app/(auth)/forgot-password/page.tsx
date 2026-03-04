@@ -16,8 +16,10 @@ import { ArrowLeftIcon, CheckIcon } from 'lucide-react';
 import { resetPassword } from '@/lib/auth/actions';
 
 export default function ForgotPasswordPage() {
-  const [state, formAction, isPending] = useActionState(resetPassword, {});
-  const success = state.error === undefined && isPending === false;
+  const [state, formAction, isPending] = useActionState(resetPassword, {
+    success: false,
+  });
+  const showSuccess = state.success === true;
 
   return (
     <Card>
@@ -28,7 +30,7 @@ export default function ForgotPasswordPage() {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        {success && !state.error ? (
+        {showSuccess ? (
           <div className="flex flex-col items-center gap-2 py-4 text-center">
             <div className="flex size-8 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/30">
               <CheckIcon className="size-4 text-emerald-600 dark:text-emerald-400" />
