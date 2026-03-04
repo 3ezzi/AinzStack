@@ -18,12 +18,16 @@ export default async function DashboardLayout({
     redirect('/sign-in');
   }
 
+  const userName =
+    user.user_metadata?.full_name ?? user.email?.split('@')[0] ?? 'User';
+  const userEmail = user.email ?? 'user@example.com';
+
   return (
     <div className="flex min-h-dvh">
-      <DashboardSidebar />
+      <DashboardSidebar userName={userName} userEmail={userEmail} />
       <div className="flex flex-1 flex-col">
         <DashboardTopNav />
-        <main id="main-content" className="flex-1 p-4 lg:p-6">
+        <main id="main-content" className="flex-1 bg-muted/30 p-4 lg:p-6">
           <PageTransition>{children}</PageTransition>
         </main>
       </div>
