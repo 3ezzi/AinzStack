@@ -92,7 +92,7 @@ export function DashboardSidebar({
     <aside
       className={cn(
         'w-56 shrink-0 border-r border-border/60 bg-sidebar',
-        mobile ? 'flex flex-col h-full' : 'hidden lg:flex lg:flex-col',
+        mobile ? 'flex h-full flex-col' : 'hidden lg:flex lg:flex-col',
       )}
     >
       {/* Brand */}
@@ -113,9 +113,9 @@ export function DashboardSidebar({
       </div>
 
       {/* Search */}
-      <div className="px-3 pt-3 pb-1">
+      <div className="px-3 pb-1 pt-3">
         <div className="relative">
-          <SearchIcon className="absolute top-1/2 left-2.5 size-3 -translate-y-1/2 text-muted-foreground" />
+          <SearchIcon className="absolute left-2.5 top-1/2 size-3 -translate-y-1/2 text-muted-foreground" />
           <Input placeholder="Search..." className="h-7 pl-7 text-[12px]" />
         </div>
       </div>
