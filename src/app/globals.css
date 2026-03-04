@@ -257,3 +257,39 @@
     @apply mx-auto w-full max-w-6xl px-4;
   }
 }
+
+/* ─── Loading Screen Animations ─── */
+.loading-logo {
+  animation: logo-pulse 1.8s ease-in-out infinite;
+}
+
+.loading-bar {
+  animation: bar-slide 1.2s ease-in-out infinite;
+}
+
+@keyframes logo-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(0.95);
+  }
+}
+
+@keyframes bar-slide {
+  0% {
+    width: 0%;
+    margin-left: 0;
+  }
+  50% {
+    width: 60%;
+    margin-left: 20%;
+  }
+  100% {
+    width: 0%;
+    margin-left: 100%;
+  }
+}
