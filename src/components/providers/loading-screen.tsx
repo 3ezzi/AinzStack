@@ -21,12 +21,6 @@ export function LoadingScreen() {
       setLoaded(true);
     }
 
-    // Check again in case readyState changed between render and effect
-    if (document.readyState === 'complete') {
-      setLoaded(true);
-      return;
-    }
-
     window.addEventListener('load', handleLoad);
     return () => window.removeEventListener('load', handleLoad);
   }, [loaded]);
