@@ -5,12 +5,14 @@ import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { MenuIcon, XIcon, LogOutIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import { createSupabaseBrowserClient } from '@/lib/supabase/client';
 import { signOut } from '@/lib/auth/actions';
 
 const navLinks = [
   { href: '/pricing', label: 'Pricing' },
+  { href: '/blog', label: 'Blog' },
   { href: '/docs', label: 'Docs' },
   { href: '/about', label: 'About' },
 ];
@@ -20,7 +22,6 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [user, setUser] = useState<{ email?: string } | null>(null);
 
-  // Check auth state
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
 
@@ -48,19 +49,24 @@ export function Navbar() {
         <Link
           href="/"
           onClick={() => setMobileOpen(false)}
-          className="font-heading text-[15px] font-semibold tracking-tight"
+          className="flex items-center gap-2"
         >
-          AinzStack
+          <div className="flex size-6 items-center justify-center rounded-md bg-foreground">
+            <span className="text-[10px] font-bold text-background">A</span>
+          </div>
+          <span className="font-heading text-[14px] font-semibold tracking-tight">
+            AinzStack
+          </span>
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden items-center gap-1 md:flex">
+        <div className="hidden items-center gap-0.5 md:flex">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               className={cn(
-                'rounded-md px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-150',
+                'rounded-md px-2.5 py-1.5 text-[12px] font-medium transition-colors duration-150',
                 pathname === link.href
                   ? 'text-foreground'
                   : 'text-muted-foreground hover:text-foreground',
@@ -72,14 +78,19 @@ export function Navbar() {
         </div>
 
         {/* Auth CTA */}
-        <div className="hidden items-center gap-2 md:flex">
+        <div className="hidden items-center gap-1.5 md:flex">
           {user ? (
             <>
-              <Button variant="ghost" size="sm" asChild>
+              <Button variant="ghost" size="sm" className="text-[12px]" asChild>
                 <Link href="/dashboard">Dashboard</Link>
               </Button>
               <form action={signOut}>
-                <Button type="submit" variant="outline" size="sm">
+                <Button
+                  type="submit"
+                  variant="outline"
+                  size="sm"
+                  className="text-[12px]"
+                >
                   <LogOutIcon className="size-3" />
                   Sign out
                 </Button>
@@ -87,17 +98,17 @@ export function Navbar() {
             </>
           ) : (
             <>
-              <Button variant="ghost" size="sm" asChild>
+              <Button variant="ghost" size="sm" className="text-[12px]" asChild>
                 <Link href="/sign-in">Sign in</Link>
               </Button>
-              <Button size="sm" asChild>
+              <Button size="sm" className="text-[12px]" asChild>
                 <Link href="/sign-up">Get Started</Link>
               </Button>
             </>
           )}
         </div>
 
-        {/* Mobile hamburger — 44px min touch target for accessibility */}
+        {/* Mobile hamburger */}
         <Button
           variant="ghost"
           size="icon-sm"
@@ -117,7 +128,7 @@ export function Navbar() {
       {/* Mobile menu */}
       {mobileOpen && (
         <div className="border-t border-border/60 bg-background px-4 pb-4 pt-2 md:hidden">
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-0.5">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -133,11 +144,22 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <div className="mt-2 flex flex-col gap-2">
+
+            <Separator className="my-2 opacity-60" />
+
+            <div className="flex flex-col gap-2">
               {user ? (
                 <>
-                  <Button variant="outline" size="sm" asChild>
-                    <Link href="/dashboard" onClick={() => setMobileOpen(false)}>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-[12px]"
+                    asChild
+                  >
+                    <Link
+                      href="/dashboard"
+                      onClick={() => setMobileOpen(false)}
+                    >
                       Dashboard
                     </Link>
                   </Button>
@@ -146,7 +168,7 @@ export function Navbar() {
                       type="submit"
                       variant="outline"
                       size="sm"
-                      className="w-full"
+                      className="w-full text-[12px]"
                     >
                       <LogOutIcon className="size-3" />
                       Sign out
@@ -155,12 +177,17 @@ export function Navbar() {
                 </>
               ) : (
                 <>
-                  <Button variant="outline" size="sm" asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-[12px]"
+                    asChild
+                  >
                     <Link href="/sign-in" onClick={() => setMobileOpen(false)}>
                       Sign in
                     </Link>
                   </Button>
-                  <Button size="sm" asChild>
+                  <Button size="sm" className="text-[12px]" asChild>
                     <Link href="/sign-up" onClick={() => setMobileOpen(false)}>
                       Get Started
                     </Link>
