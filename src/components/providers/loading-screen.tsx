@@ -21,6 +21,14 @@ export function LoadingScreen() {
       setLoaded(true);
     }
 
+    // If the page already loaded before this effect ran (common during
+    // hydration), defer setState via rAF to satisfy the lint rule that
+    // forbids synchronous setState inside effects.
+    if (document.readyState === 'complete') {
+      const id = requestAnimationFrame(() => setLoaded(true));
+      return () => cancelAnimationFrame(id);
+    }
+
     window.addEventListener('load', handleLoad);
     return () => window.removeEventListener('load', handleLoad);
   }, [loaded]);
