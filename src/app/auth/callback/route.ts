@@ -12,18 +12,20 @@ export async function GET(request: Request) {
   const code = url.searchParams.get('code');
   const next = url.searchParams.get('next') ?? '/dashboard';
 
+  const env = getServerEnv();
+  const baseUrl = env.NEXT_PUBLIC_APP_URL ?? url.origin;
+
   if (!code) {
     return NextResponse.redirect(
-      new URL('/sign-in?error=missing_code', url.origin),
+      new URL('/sign-in?error=missing_code', baseUrl),
     );
   }
 
-  const env = getServerEnv();
   const supabaseUrl = env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!supabaseUrl || !supabaseKey) {
-    return NextResponse.redirect(new URL('/sign-in?error=config', url.origin));
+    return NextResponse.redirect(new URL('/sign-in?error=config', baseUrl));
   }
 
   const cookieStore = await cookies();
@@ -49,9 +51,9 @@ export async function GET(request: Request) {
 
   if (error) {
     return NextResponse.redirect(
-      new URL('/sign-in?error=auth_failed', url.origin),
+      new URL('/sign-in?error=auth_failed', baseUrl),
     );
   }
 
-  return NextResponse.redirect(new URL(next, url.origin));
+  return NextResponse.redirect(new URL(next, baseUrl));
 }
