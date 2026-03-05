@@ -15,7 +15,7 @@
 ![React](https://img.shields.io/badge/React-19.2.4-149eca?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178c6?logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38bdf8?logo=tailwindcss)
-![Repo Size](https://img.shields.io/github/repo-size/JCFcodex/AinzStack)
+![Code Size](https://img.shields.io/github/languages/code-size/JCFcodex/AinzStack)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 </div>
