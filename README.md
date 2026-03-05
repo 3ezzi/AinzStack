@@ -20,16 +20,18 @@
 
 </div>
 
-## Preview
+## Visual Showcase
 
-### Hero Preview
+> Brand and design assets used for README presentation and repository identity.
+
+### README Display Banner
 <p align="center">
-  <img src="public/og-image.png" alt="AinzStack Open Graph Preview" width="960" />
+  <img src="public/og-image.png" alt="AinzStack README display banner" width="960" />
 </p>
 
-### Product Snapshot
+### UI Design Snapshot
 <p align="center">
-  <img src="public/preview.png" alt="AinzStack UI Preview" width="960" />
+  <img src="public/preview.png" alt="AinzStack interface design preview" width="960" />
 </p>
 
 ## Why This Project?
