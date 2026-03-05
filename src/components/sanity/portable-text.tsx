@@ -1,6 +1,7 @@
 import { PortableText as PortableTextRenderer } from '@portabletext/react';
 import Image from 'next/image';
 import { urlForImage } from '@/lib/sanity/image';
+import { CodeBlock } from '@/components/shared/code-block';
 import type { SanityBlock } from '@/lib/sanity/queries';
 
 interface PortableTextProps {
@@ -30,6 +31,19 @@ const components = {
             </figcaption>
           )}
         </figure>
+      );
+    },
+    code: ({
+      value,
+    }: {
+      value: { code: string; language?: string; filename?: string };
+    }) => {
+      return (
+        <CodeBlock
+          code={value.code}
+          language={value.language}
+          filename={value.filename}
+        />
       );
     },
   },
@@ -76,7 +90,7 @@ const components = {
       </a>
     ),
     code: ({ children }: { children?: React.ReactNode }) => (
-      <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">
+      <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-[11px] text-foreground">
         {children}
       </code>
     ),
@@ -100,9 +114,100 @@ export function PortableText({ value }: PortableTextProps) {
     return null;
   }
 
+  // Pre-process the blocks to detect markdown-style code blocks
+  // that were pasted as normal text (e.g. ```bash \n ... \n ```)
+  const processedBlocks: any[] = [];
+  let inCode = false;
+  let codeContent = '';
+  let language = '';
+
+  for (const block of value) {
+    // We only inspect "normal" text blocks
+    if (block._type === 'block' && (block.style === 'normal' || !block.style)) {
+      const text = block.children?.map((c: any) => c.text).join('') || '';
+
+      // Check if starting a new code block
+      if (!inCode && text.trim().startsWith('```')) {
+        const lines = text.split('\n');
+        const lastLine = lines[lines.length - 1].trim();
+
+        // If it starts and ends with ``` in the same block (Shift+Enter)
+        if (lines.length > 1 && lastLine === '```') {
+          const lang = lines[0].trim().substring(3).trim();
+          const code = lines.slice(1, -1).join('\n');
+          processedBlocks.push({
+            _type: 'code',
+            _key: block._key || Math.random().toString(36).substring(2, 9),
+            code,
+            language: lang || 'text',
+          });
+          continue;
+        } else {
+          // Starts a multi-block code block
+          inCode = true;
+          language = lines[0].trim().substring(3).trim();
+          codeContent = lines.slice(1).join('\n');
+          if (lines.length > 1) codeContent += '\n';
+          continue;
+        }
+      }
+
+      // If we are accumulating lines inside a code block
+      if (inCode) {
+        const lines = text.split('\n');
+        let closedInThisBlock = false;
+
+        // Check if the closing ``` is anywhere in this block
+        for (let i = 0; i < lines.length; i++) {
+          if (lines[i].trim() === '```') {
+            inCode = false;
+            closedInThisBlock = true;
+            codeContent += lines.slice(0, i).join('\n');
+            processedBlocks.push({
+              _type: 'code',
+              _key: block._key || Math.random().toString(36).substring(2, 9),
+              code: codeContent.trimEnd(),
+              language: language || 'text',
+            });
+            break;
+          }
+        }
+
+        if (!closedInThisBlock) {
+          codeContent += text + '\n';
+        }
+        continue;
+      }
+    } else if (inCode) {
+      // If we hit a non-normal block (like an image) while unclosed, force close
+      inCode = false;
+      processedBlocks.push({
+        _type: 'code',
+        _key: 'forced-code-' + Math.random().toString(36).substring(2, 9),
+        code: codeContent.trimEnd(),
+        language: language || 'text',
+      });
+    }
+
+    // Normal pass-through
+    if (!inCode) {
+      processedBlocks.push(block);
+    }
+  }
+
+  // Handle cleanly if the document ends while still in a code block
+  if (inCode) {
+    processedBlocks.push({
+      _type: 'code',
+      _key: 'unclosed-code-' + Math.random().toString(36).substring(2, 9),
+      code: codeContent.trimEnd(),
+      language: language || 'text',
+    });
+  }
+
   return (
     <div className="prose-ainz">
-      <PortableTextRenderer value={value} components={components} />
+      <PortableTextRenderer value={processedBlocks} components={components} />
     </div>
   );
 }

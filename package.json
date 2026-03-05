@@ -43,6 +43,7 @@
     "recharts": "2.15.4",
     "resend": "6.9.3",
     "sanity": "5.12.0",
+    "shiki": "^4.0.1",
     "sonner": "2.0.7",
     "stripe": "20.4.0",
     "styled-components": "6.3.11",
