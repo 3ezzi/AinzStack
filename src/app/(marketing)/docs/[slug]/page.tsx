@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeftIcon } from 'lucide-react';
 import { getDocArticleBySlug } from '@/lib/sanity/queries';
+import type { SanityBlock } from '@/lib/sanity/queries';
 import { PortableText } from '@/components/sanity/portable-text';
 
 export const dynamic = 'force-dynamic';
@@ -47,7 +48,14 @@ export default async function DocArticlePage({ params }: PageProps) {
         {article.title}
       </h1>
 
-      {article.body && <PortableText value={article.body} />}
+      {article.body && (
+        <PortableText
+          value={article.body.filter(
+            (block: SanityBlock) =>
+              !(block._type === 'block' && block.style === 'h1'),
+          )}
+        />
+      )}
     </article>
   );
 }

@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeftIcon } from 'lucide-react';
 import { getPostBySlug } from '@/lib/sanity/queries';
+import type { SanityBlock } from '@/lib/sanity/queries';
 import { urlForImage } from '@/lib/sanity/image';
 import { PortableText } from '@/components/sanity/portable-text';
 import { JsonLd } from '@/components/seo/json-ld';
@@ -105,7 +106,14 @@ export default async function BlogPostPage({ params }: PageProps) {
           </div>
         )}
 
-        {post.body && <PortableText value={post.body} />}
+        {post.body && (
+          <PortableText
+            value={post.body.filter(
+              (block: SanityBlock) =>
+                !(block._type === 'block' && block.style === 'h1'),
+            )}
+          />
+        )}
       </article>
     </>
   );
