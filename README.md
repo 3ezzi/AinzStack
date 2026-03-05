@@ -30,7 +30,7 @@ Auth flows are integrated via Supabase. Billing is wired through Stripe. Marketi
 ### Interface
 
 <p align="center">
-  <img src="public/og-image.png" alt="AinzStack Preview" width="100%" />
+  <img src="public/preview.png" alt="AinzStack Preview" width="100%" />
 </p>
 
 ---
