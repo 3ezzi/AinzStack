@@ -8,6 +8,34 @@ interface PortableTextProps {
   value: SanityBlock[];
 }
 
+interface PortableTextChild {
+  text?: string;
+}
+
+interface PortableTextLikeBlock {
+  _type?: string;
+  _key?: string;
+  style?: string;
+  children?: PortableTextChild[];
+}
+
+interface PortableTextCodeBlock {
+  _type: 'code';
+  _key: string;
+  code: string;
+  language: string;
+}
+
+function extractPlainText(block: PortableTextLikeBlock): string {
+  if (!Array.isArray(block.children)) {
+    return '';
+  }
+
+  return block.children
+    .map((child) => (typeof child.text === 'string' ? child.text : ''))
+    .join('');
+}
+
 const components = {
   types: {
     image: ({
@@ -116,28 +144,44 @@ export function PortableText({ value }: PortableTextProps) {
 
   // Pre-process the blocks to detect markdown-style code blocks
   // that were pasted as normal text (e.g. ```bash \n ... \n ```)
-  const processedBlocks: any[] = [];
+  const processedBlocks: Array<SanityBlock | PortableTextCodeBlock> = [];
   let inCode = false;
   let codeContent = '';
   let language = '';
+  let generatedCodeKeyCounter = 0;
 
-  for (const block of value) {
+  const nextCodeKey = (
+    prefix: string,
+    blockIndex: number,
+    existingKey?: string,
+  ) => {
+    if (existingKey) {
+      return existingKey;
+    }
+
+    generatedCodeKeyCounter += 1;
+    return `${prefix}-${blockIndex}-${generatedCodeKeyCounter}`;
+  };
+
+  for (const [blockIndex, rawBlock] of value.entries()) {
+    const block = rawBlock as PortableTextLikeBlock;
+
     // We only inspect "normal" text blocks
     if (block._type === 'block' && (block.style === 'normal' || !block.style)) {
-      const text = block.children?.map((c: any) => c.text).join('') || '';
+      const text = extractPlainText(block);
 
       // Check if starting a new code block
       if (!inCode && text.trim().startsWith('```')) {
         const lines = text.split('\n');
-        const lastLine = lines[lines.length - 1].trim();
+        const lastLine = (lines[lines.length - 1] ?? '').trim();
 
         // If it starts and ends with ``` in the same block (Shift+Enter)
         if (lines.length > 1 && lastLine === '```') {
-          const lang = lines[0].trim().substring(3).trim();
+          const lang = (lines[0] ?? '').trim().substring(3).trim();
           const code = lines.slice(1, -1).join('\n');
           processedBlocks.push({
             _type: 'code',
-            _key: block._key || Math.random().toString(36).substring(2, 9),
+            _key: nextCodeKey('code', blockIndex, block._key),
             code,
             language: lang || 'text',
           });
@@ -145,7 +189,7 @@ export function PortableText({ value }: PortableTextProps) {
         } else {
           // Starts a multi-block code block
           inCode = true;
-          language = lines[0].trim().substring(3).trim();
+          language = (lines[0] ?? '').trim().substring(3).trim();
           codeContent = lines.slice(1).join('\n');
           if (lines.length > 1) codeContent += '\n';
           continue;
@@ -159,13 +203,14 @@ export function PortableText({ value }: PortableTextProps) {
 
         // Check if the closing ``` is anywhere in this block
         for (let i = 0; i < lines.length; i++) {
-          if (lines[i].trim() === '```') {
+          const currentLine = lines[i];
+          if (currentLine && currentLine.trim() === '```') {
             inCode = false;
             closedInThisBlock = true;
             codeContent += lines.slice(0, i).join('\n');
             processedBlocks.push({
               _type: 'code',
-              _key: block._key || Math.random().toString(36).substring(2, 9),
+              _key: nextCodeKey('code', blockIndex, block._key),
               code: codeContent.trimEnd(),
               language: language || 'text',
             });
@@ -183,7 +228,7 @@ export function PortableText({ value }: PortableTextProps) {
       inCode = false;
       processedBlocks.push({
         _type: 'code',
-        _key: 'forced-code-' + Math.random().toString(36).substring(2, 9),
+        _key: nextCodeKey('forced-code', blockIndex),
         code: codeContent.trimEnd(),
         language: language || 'text',
       });
@@ -191,7 +236,7 @@ export function PortableText({ value }: PortableTextProps) {
 
     // Normal pass-through
     if (!inCode) {
-      processedBlocks.push(block);
+      processedBlocks.push(rawBlock);
     }
   }
 
@@ -199,7 +244,7 @@ export function PortableText({ value }: PortableTextProps) {
   if (inCode) {
     processedBlocks.push({
       _type: 'code',
-      _key: 'unclosed-code-' + Math.random().toString(36).substring(2, 9),
+      _key: nextCodeKey('unclosed-code', value.length),
       code: codeContent.trimEnd(),
       language: language || 'text',
     });
