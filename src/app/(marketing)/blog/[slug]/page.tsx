@@ -91,7 +91,7 @@ export default async function BlogPostPage({ params }: PageProps) {
         </div>
 
         {post.coverImage && (
-          <div className="relative mb-8 aspect-[16/9] overflow-hidden rounded-lg">
+          <div className="relative mb-8 aspect-video overflow-hidden rounded-lg">
             <Image
               src={urlForImage(post.coverImage)
                 .width(800)
