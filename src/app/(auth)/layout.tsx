@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { PageTransition } from '@/components/providers/page-transition';
 
 export default function AuthLayout({
@@ -22,9 +23,14 @@ export default function AuthLayout({
         {/* Brand */}
         <div className="mb-6 flex justify-center">
           <Link href="/" className="flex items-center gap-2">
-            <div className="flex size-7 items-center justify-center rounded-md bg-foreground">
-              <span className="text-[11px] font-bold text-background">A</span>
-            </div>
+            <Image
+              src="/logo.png"
+              alt="AinzStack Logo"
+              width={28}
+              height={28}
+              className="rounded-md"
+              priority
+            />
             <span className="font-heading text-[15px] font-semibold tracking-tight">
               AinzStack
             </span>

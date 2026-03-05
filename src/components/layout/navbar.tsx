@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { MenuIcon, XIcon, LogOutIcon } from 'lucide-react';
@@ -54,9 +55,14 @@ export function Navbar() {
           onClick={() => setMobileOpen(false)}
           className="flex items-center gap-2"
         >
-          <div className="flex size-6 items-center justify-center rounded-md bg-foreground">
-            <span className="text-[10px] font-bold text-background">A</span>
-          </div>
+          <Image
+            src="/logo.png"
+            alt="AinzStack Logo"
+            width={24}
+            height={24}
+            className="rounded-md"
+            priority
+          />
           <span className="font-heading text-[14px] font-semibold tracking-tight">
             AinzStack
           </span>

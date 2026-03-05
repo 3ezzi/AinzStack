@@ -1,13 +1,18 @@
+import Image from 'next/image';
+
 export default function RouteLoading() {
   return (
     <div className="flex min-h-[60dvh] items-center justify-center">
       <div className="flex flex-col items-center gap-4">
         {/* Monogram */}
-        <div className="loading-logo flex size-10 items-center justify-center rounded-xl bg-foreground">
-          <span className="text-[16px] font-bold tracking-tight text-background">
-            A
-          </span>
-        </div>
+        <Image
+          src="/logo.png"
+          alt="AinzStack Logo"
+          width={40}
+          height={40}
+          className="rounded-xl"
+          priority
+        />
 
         {/* Brand */}
         <div className="flex flex-col items-center gap-1">

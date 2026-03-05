@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
 /**
@@ -9,9 +10,7 @@ import { cn } from '@/lib/utils';
  * fades out smoothly once the window fires the 'load' event.
  */
 export function LoadingScreen() {
-  const [loaded, setLoaded] = useState(
-    () => typeof document !== 'undefined' && document.readyState === 'complete',
-  );
+  const [loaded, setLoaded] = useState(false);
   const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
@@ -52,11 +51,14 @@ export function LoadingScreen() {
     >
       <div className="flex flex-col items-center gap-4">
         {/* Monogram */}
-        <div className="loading-logo flex size-10 items-center justify-center rounded-xl bg-foreground">
-          <span className="text-[16px] font-bold tracking-tight text-background">
-            A
-          </span>
-        </div>
+        <Image
+          src="/logo.png"
+          alt="AinzStack Logo"
+          width={40}
+          height={40}
+          className="rounded-xl"
+          priority
+        />
 
         {/* Brand */}
         <div className="flex flex-col items-center gap-1">

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import {
   LayoutDashboardIcon,
@@ -98,9 +99,13 @@ export function DashboardSidebar({
       {/* Brand */}
       <div className="flex h-12 items-center border-b border-border/60 px-3">
         <Link href="/" className="flex items-center gap-2">
-          <div className="flex size-6 items-center justify-center rounded-md bg-foreground">
-            <span className="text-[10px] font-bold text-background">A</span>
-          </div>
+          <Image
+            src="/logo.png"
+            alt="AinzStack Logo"
+            width={24}
+            height={24}
+            className="rounded-md shrink-0"
+          />
           <div className="leading-none">
             <span className="text-[13px] font-semibold tracking-tight">
               AinzStack
