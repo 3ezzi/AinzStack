@@ -48,12 +48,21 @@ export const metadata: Metadata = {
     title: 'AinzStack — Ship Your SaaS in Days, Not Months',
     description:
       'Production-ready Next.js 16 boilerplate with auth, payments, email, and CMS. Built for speed.',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'AinzStack - Ship Your SaaS in Days',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'AinzStack — Ship Your SaaS in Days, Not Months',
     description:
       'Production-ready Next.js 16 boilerplate with auth, payments, email, and CMS.',
+    images: ['/og-image.png'],
   },
   robots: {
     index: true,
