@@ -76,7 +76,7 @@ export function Navbar() {
               href={link.href}
               className={cn(
                 'rounded-md px-2.5 py-1.5 text-[12px] font-medium transition-colors duration-150',
-                pathname === link.href
+                pathname === link.href || pathname.startsWith(link.href + '/')
                   ? 'text-foreground'
                   : 'text-muted-foreground hover:text-foreground',
               )}
@@ -145,7 +145,7 @@ export function Navbar() {
                 onClick={() => setMobileOpen(false)}
                 className={cn(
                   'rounded-md px-2.5 py-2 text-[13px] font-medium transition-colors',
-                  pathname === link.href
+                  pathname === link.href || pathname.startsWith(link.href + '/')
                     ? 'bg-accent text-foreground'
                     : 'text-muted-foreground hover:text-foreground',
                 )}
