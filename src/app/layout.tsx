@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://ainzstack.dev',
+    url: '/',
     siteName: 'AinzStack',
     title: 'AinzStack — Ship Your SaaS in Days, Not Months',
     description:
