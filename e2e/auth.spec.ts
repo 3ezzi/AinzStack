@@ -38,6 +38,11 @@ test.describe('Auth Pages', () => {
     ).toBeVisible();
   });
 
+  test('reset-password page requires a recovery session', async ({ page }) => {
+    await page.goto('/reset-password');
+    await expect(page).toHaveURL('/forgot-password');
+  });
+
   test('sign-in has link to sign-up', async ({ page }) => {
     await page.goto('/sign-in');
 

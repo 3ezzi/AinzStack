@@ -1,6 +1,7 @@
 'use server';
 
 import { redirect } from 'next/navigation';
+import { z } from 'zod';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { getServerEnv } from '@/lib/env/server';
 
@@ -12,19 +13,43 @@ interface ResetPasswordResult extends AuthResult {
   success?: boolean;
 }
 
+const signInSchema = z.object({
+  email: z.string().trim().email('Enter a valid email address.'),
+  password: z.string().min(1, 'Password is required.'),
+});
+
+const signUpSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(2, 'Full name must be at least 2 characters.')
+    .max(80, 'Full name must be 80 characters or fewer.'),
+  email: z.string().trim().email('Enter a valid email address.'),
+  password: z
+    .string()
+    .min(8, 'Password must be at least 8 characters.')
+    .max(128, 'Password must be 128 characters or fewer.'),
+});
+
+const resetPasswordSchema = z.object({
+  email: z.string().trim().email('Enter a valid email address.'),
+});
+
 export async function signInWithEmail(
   _prev: AuthResult,
   formData: FormData,
 ): Promise<AuthResult> {
-  const email = formData.get('email') as string;
-  const password = formData.get('password') as string;
+  const parsed = signInSchema.safeParse({
+    email: formData.get('email'),
+    password: formData.get('password'),
+  });
 
-  if (!email || !password) {
-    return { error: 'Email and password are required.' };
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? 'Unable to sign in.' };
   }
 
   const supabase = await createSupabaseServerClient();
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  const { error } = await supabase.auth.signInWithPassword(parsed.data);
 
   if (error) {
     return { error: error.message };
@@ -37,20 +62,26 @@ export async function signUpWithEmail(
   _prev: AuthResult,
   formData: FormData,
 ): Promise<AuthResult> {
-  const name = formData.get('name') as string;
-  const email = formData.get('email') as string;
-  const password = formData.get('password') as string;
+  const parsed = signUpSchema.safeParse({
+    name: formData.get('name'),
+    email: formData.get('email'),
+    password: formData.get('password'),
+  });
 
-  if (!name || !email || !password) {
-    return { error: 'All fields are required.' };
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? 'Unable to sign up.' };
   }
 
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase.auth.signUp({
-    email,
-    password,
+    email: parsed.data.email,
+    password: parsed.data.password,
     options: {
-      data: { full_name: name },
+      data: {
+        full_name: parsed.data.name,
+        email_notifications: true,
+        marketing_emails: false,
+      },
     },
   });
 
@@ -65,18 +96,23 @@ export async function resetPassword(
   _prev: ResetPasswordResult,
   formData: FormData,
 ): Promise<ResetPasswordResult> {
-  const email = formData.get('email') as string;
+  const parsed = resetPasswordSchema.safeParse({
+    email: formData.get('email'),
+  });
 
-  if (!email) {
-    return { error: 'Email is required.', success: false };
+  if (!parsed.success) {
+    return {
+      error: parsed.error.issues[0]?.message ?? 'Unable to send reset link.',
+      success: false,
+    };
   }
 
   const env = getServerEnv();
   const appUrl = env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
   const supabase = await createSupabaseServerClient();
 
-  const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${appUrl}/auth/callback?next=/dashboard/settings`,
+  const { error } = await supabase.auth.resetPasswordForEmail(parsed.data.email, {
+    redirectTo: `${appUrl}/auth/callback?next=/reset-password`,
   });
 
   if (error) {

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import { getServerEnv } from '@/lib/env/server';
 import { cookies } from 'next/headers';
+import { getSafeAuthRedirect } from '@/lib/security/redirect';
 
 /**
  * Auth callback handler for Supabase OAuth and magic links.
@@ -10,7 +11,7 @@ import { cookies } from 'next/headers';
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const code = url.searchParams.get('code');
-  const next = url.searchParams.get('next') ?? '/dashboard';
+  const next = getSafeAuthRedirect(url.searchParams.get('next'));
 
   const env = getServerEnv();
   const baseUrl = env.NEXT_PUBLIC_APP_URL ?? url.origin;
