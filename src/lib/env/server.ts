@@ -17,6 +17,7 @@ const serverEnvSchema = z.object({
   SANITY_READ_TOKEN: z.string().min(1).optional(),
   RESEND_API_KEY: z.string().optional(),
   RESEND_FROM_EMAIL: z.string().email().default('no-reply@example.com'),
+  SUPPORT_EMAIL: z.string().email().optional(),
 });
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>;
