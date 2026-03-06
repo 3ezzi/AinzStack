@@ -1,14 +1,17 @@
-import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { ArrowLeftIcon } from 'lucide-react';
-import { getPostBySlug } from '@/lib/sanity/queries';
-import type { SanityBlock } from '@/lib/sanity/queries';
-import { urlForImage } from '@/lib/sanity/image';
 import { PortableText } from '@/components/sanity/portable-text';
 import { JsonLd } from '@/components/seo/json-ld';
+import { urlForImage } from '@/lib/sanity/image';
+import type { SanityBlock } from '@/lib/sanity/queries';
+import {
+  getSafePostBySlug,
+  getSafePosts,
+} from '@/lib/sanity/safe-queries';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 300;
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -16,10 +19,14 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
-  const post = await getPostBySlug(slug);
-  if (!post) return { title: 'Not Found' };
+  const post = await getSafePostBySlug(slug);
+
+  if (!post) {
+    return { title: 'Not Found' };
+  }
+
   return {
-    title: `${post.title} — AinzStack`,
+    title: `${post.title} - AinzStack`,
     description: post.excerpt ?? '',
     openGraph: {
       title: post.title,
@@ -30,9 +37,14 @@ export async function generateMetadata({ params }: PageProps) {
   };
 }
 
+export async function generateStaticParams() {
+  const posts = await getSafePosts();
+  return posts.map((post) => ({ slug: post.slug }));
+}
+
 export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params;
-  const post = await getPostBySlug(slug);
+  const post = await getSafePostBySlug(slug);
 
   if (!post) {
     notFound();
@@ -74,12 +86,12 @@ export default async function BlogPostPage({ params }: PageProps) {
         </h1>
 
         <div className="mb-6 flex items-center gap-3 text-xs text-muted-foreground">
-          {post.author && (
+          {post.author ? (
             <span className="font-medium text-foreground">
               {post.author.name}
             </span>
-          )}
-          {post.publishedAt && (
+          ) : null}
+          {post.publishedAt ? (
             <time>
               {new Date(post.publishedAt).toLocaleDateString('en-US', {
                 month: 'long',
@@ -87,10 +99,10 @@ export default async function BlogPostPage({ params }: PageProps) {
                 year: 'numeric',
               })}
             </time>
-          )}
+          ) : null}
         </div>
 
-        {post.coverImage && (
+        {post.coverImage ? (
           <div className="relative mb-8 aspect-video overflow-hidden rounded-lg">
             <Image
               src={urlForImage(post.coverImage)
@@ -104,16 +116,16 @@ export default async function BlogPostPage({ params }: PageProps) {
               priority
             />
           </div>
-        )}
+        ) : null}
 
-        {post.body && (
+        {post.body ? (
           <PortableText
             value={post.body.filter(
               (block: SanityBlock) =>
                 !(block._type === 'block' && block.style === 'h1'),
             )}
           />
-        )}
+        ) : null}
       </article>
     </>
   );

@@ -1,17 +1,17 @@
-import Link from 'next/link';
 import Image from 'next/image';
-import { getPosts } from '@/lib/sanity/queries';
-import { urlForImage } from '@/lib/sanity/image';
-import { Separator } from '@/components/ui/separator';
+import Link from 'next/link';
 import {
   Card,
   CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
-  CardDescription,
 } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { urlForImage } from '@/lib/sanity/image';
+import { getSafePosts } from '@/lib/sanity/safe-queries';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 300;
 
 export const metadata = {
   title: 'Blog',
@@ -19,11 +19,10 @@ export const metadata = {
 };
 
 export default async function BlogPage() {
-  const posts = await getPosts();
+  const posts = await getSafePosts();
 
   return (
     <section className="mx-auto max-w-3xl px-4 py-14">
-      {/* Page Header */}
       <div className="mb-6">
         <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">
           Blog
@@ -45,7 +44,7 @@ export default async function BlogPage() {
           {posts.map((post) => (
             <Link key={post._id} href={`/blog/${post.slug}`}>
               <Card className="h-full transition-colors duration-150 hover:border-foreground/10">
-                {post.coverImage && (
+                {post.coverImage ? (
                   <div className="relative aspect-video overflow-hidden rounded-t-lg">
                     <Image
                       src={urlForImage(post.coverImage)
@@ -59,10 +58,10 @@ export default async function BlogPage() {
                       className="object-cover"
                     />
                   </div>
-                )}
+                ) : null}
                 <CardHeader className="pb-2">
                   <CardTitle className="text-[13px]">{post.title}</CardTitle>
-                  {post.publishedAt && (
+                  {post.publishedAt ? (
                     <CardDescription className="text-[10px]">
                       {new Date(post.publishedAt).toLocaleDateString('en-US', {
                         month: 'short',
@@ -70,15 +69,15 @@ export default async function BlogPage() {
                         year: 'numeric',
                       })}
                     </CardDescription>
-                  )}
+                  ) : null}
                 </CardHeader>
-                {post.excerpt && (
+                {post.excerpt ? (
                   <CardContent className="pt-0">
                     <p className="line-clamp-2 text-[11px] text-muted-foreground">
                       {post.excerpt}
                     </p>
                   </CardContent>
-                )}
+                ) : null}
               </Card>
             </Link>
           ))}

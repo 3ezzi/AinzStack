@@ -1,25 +1,25 @@
-import { getPageBySlug } from '@/lib/sanity/queries';
 import { PortableText } from '@/components/sanity/portable-text';
 import { Separator } from '@/components/ui/separator';
+import { getSafePageBySlug } from '@/lib/sanity/safe-queries';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 300;
 
 export async function generateMetadata() {
-  const page = await getPageBySlug('about');
+  const page = await getSafePageBySlug('about');
+
   return {
-    title: page?.seoTitle ?? 'About — AinzStack',
+    title: page?.seoTitle ?? 'About - AinzStack',
     description:
       page?.seoDescription ??
-      'Learn about AinzStack — the production-ready Next.js boilerplate.',
+      'Learn about AinzStack - the production-ready Next.js boilerplate.',
   };
 }
 
 export default async function AboutPage() {
-  const page = await getPageBySlug('about');
+  const page = await getSafePageBySlug('about');
 
   return (
     <section className="mx-auto max-w-3xl px-4 py-14">
-      {/* Page Header */}
       <div className="mb-6">
         <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">
           About
@@ -41,8 +41,9 @@ export default async function AboutPage() {
             AI, or web apps.
           </p>
           <p>
-            It features pre-built authentication, payments, email, and Sanity as
-            the powerful backend CMS — saving 220+ hours of development time.
+            It includes authentication, billing, email, and CMS integrations so
+            teams can start from an operational baseline instead of rebuilding
+            the same platform concerns from scratch.
           </p>
         </div>
       )}

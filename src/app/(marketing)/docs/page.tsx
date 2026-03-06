@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import { getDocCategories } from '@/lib/sanity/queries';
 import { BookOpenIcon, ChevronRightIcon } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { getSafeDocCategories } from '@/lib/sanity/safe-queries';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 300;
 
 export const metadata = {
   title: 'Docs',
@@ -11,11 +11,10 @@ export const metadata = {
 };
 
 export default async function DocsPage() {
-  const categories = await getDocCategories();
+  const categories = await getSafeDocCategories();
 
   return (
     <section className="mx-auto max-w-3xl px-4 py-14">
-      {/* Page Header */}
       <div className="mb-6">
         <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">
           Documentation
@@ -55,11 +54,11 @@ export default async function DocsPage() {
                     <ChevronRightIcon className="size-3 text-muted-foreground" />
                   </Link>
                 ))}
-                {category.articles.length === 0 && (
+                {category.articles.length === 0 ? (
                   <p className="px-3 py-2 text-[11px] text-muted-foreground">
                     No articles yet.
                   </p>
-                )}
+                ) : null}
               </div>
             </div>
           ))}
